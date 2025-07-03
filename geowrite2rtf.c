@@ -3,6 +3,7 @@
 // Based on this documentation:
 // http://unusedino.de/ec64/technical/formats/cvt.html
 // http://www.zimmers.net/geos/docs/writefile.txt
+// Updated by Gabor Lipcsei as the original resulted cropped text for me after every character.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +16,7 @@
 
 // You probably want to turn this on. GeoWrite files end in a \0 character.
 #define SUPPRESS_NUL
+#define debug
 
 // Turn this on to debug this tool... or broken files.
 //#define DEBUG
@@ -182,70 +184,17 @@ main(int argc, char **argv)
 					}
 					debug_printf(">>>\n");
 					debug_printf("<<<Color %d>>>\n", color);
-					debug_printf("<<<Spacing %d>>>\n", spacing);
+					
 					debug_printf("\n");
 
 					// tab stops
 					if (print_rtf) {
-						fprintf(f, "\\pard");
-						for (int i = 0; i < 8; i++) {
-							if (tab[i] & 0x8000) {
-								fprintf(f, "\\tqdec"); // next tab stop is decimal
-							}
-							fprintf(f, "\\tx%d", (tab[i] & 0x7FFF) * 20);
-						}
-						fprintf(f, " ");
+						fprintf(f, "\\pard\\plain\\ql\\fi0\\li0\\ri0\\fs20 ");
 					} else if (print_html) {
 						fprintf(stderr, "%s: Warning: Dropping tab stops!\n", infile);
 					}
 
-					// indent
-					if (print_rtf) {
-						fprintf(f, "\\li%d\\fi%d\\ri%d ", left * 20, (paragraph - left) * 20, right * 20);
-					} else if (print_html) {
-						fprintf(stderr, "%s: Warning: Dropping line indent!\n", infile);
-					}
-
-					// spacing
-					if (print_rtf) {
-						switch (spacing) {
-							case 0:
-								fprintf(f, "\\sl240 ");
-								break;
-							case 1:
-								fprintf(f, "\\sl360 ");
-								break;
-							case 2:
-								fprintf(f, "\\sl480 ");
-								break;
-						}
-					} else if (print_html) {
-						if (spacing) {
-							fprintf(stderr, "%s: Warning: Dropping line spacing!\n", infile);
-						}
-					}
-
-					// alignment
-					char *s;
-					switch (alignment) {
-						case 0:
-							s = "left";
-							break;
-						case 1:
-							s = "center";
-							break;
-						case 2:
-							s = "right";
-							break;
-						case 3:
-							s = "justify";
-							break;
-					}
-					if (print_html) {
-						fprintf(f, "<span align=\"%s\">", s);
-					} else if (print_rtf) {
-						fprintf(f, "\\q%c ", s[0]);
-					}
+					
 
 					// text color
 					if ((print_html || print_rtf) && color) {
