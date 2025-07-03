@@ -1,7 +1,7 @@
 # geowrite2rtf
 
 *geowrite2rtf* is a simple tool that converts a C64/C128 GEOS GeoWrite document in [.CVT format](http://unusedino.de/ec64/technical/formats/cvt.html) into RTF format. The tool can optionally write HTML or plain-text as well, though at a loss of some or all formatting.
-This fork was created because the original version didn't work for me (formatted the page in a way that only 1 character could fit in a row) with the GeoWrite files that I created with GEOS65 (GEOS128 port for the Mega65 computer) so the conversion was a bit simplified to have this fixed.
+This fork was created because the original version didn't work for me (formatted the page in a way that only 1 character could fit in a row) with the GeoWrite files that I created with GEOS65 (GEOS128 port for the MEGA65 computer) so the conversion was a bit simplified to have this fixed.
 
 Use a tool like [c1541](http://vice-emu.sourceforge.net/vice_12.html) or [DirMaster](http://style64.org/dirmaster) to extract the file from a D64/D71/D81/etc. disk image into a .CVT first.
 
